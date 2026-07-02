@@ -25,13 +25,13 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=ArukuKun_hsr-api -Dsonar.organization=arukukun -Dsonar.host.url=https://sonarcloud.io -DskipTests
 
+      - name: Install Snyk CLI
+        uses: snyk/actions/setup@master
+        
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/maven@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --severity-threshold=high
-
+        run: snyk test --severity-threshold=high
   deploy:
     needs: quality-and-security
     runs-on: ubuntu-latest
