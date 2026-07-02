@@ -72,8 +72,9 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           # 1. Crear la base de datos y la API por primera vez en el clúster
-          kubectl apply -f postgres.yaml
-          kubectl apply -f api.yaml
+          kubectl apply -f k8s/postgres.yaml  # <-- Ajusta 'k8s/' al nombre de tu carpeta
+          kubectl apply -f k8s/api.yaml       # <-- Ajusta 'k8s/' al nombre de tu carpeta
           
           # 2. Actualiza el deployment con la imagen recién subida
           kubectl set image deployment/hsr-api-deployment hsr-api=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+Nota: Si tus archivos sí están sueltos en la carpeta principal y no los metiste en ningún
