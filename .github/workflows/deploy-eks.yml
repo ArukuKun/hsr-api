@@ -71,5 +71,9 @@ jobs:
           ECR_REPOSITORY: hsr-api
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          # Actualiza el deployment con la imagen recién subida
+          # 1. Crear la base de datos y la API por primera vez en el clúster
+          kubectl apply -f postgres.yaml
+          kubectl apply -f api.yaml
+          
+          # 2. Actualiza el deployment con la imagen recién subida
           kubectl set image deployment/hsr-api-deployment hsr-api=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
