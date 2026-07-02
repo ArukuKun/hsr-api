@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/v1/characters")
 public class CharacterController {
@@ -54,5 +55,10 @@ public class CharacterController {
             throw new RuntimeException("Personaje no encontrado con id: " + id);
         }
         repository.deleteById(id);
+    }
+
+    @GetMapping("/test-video")
+    public String testVideo() {
+        return "API HSR - Despliegue completamente automatizado en AWS EKS (Versión 2)";
     }
 }
