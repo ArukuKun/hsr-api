@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hsr-api-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hsr-api
+  template:
+    metadata:
+      labels:
+        app: hsr-api
+    spec:
+      containers:
+      - name: hsr-api
+        image: tu_usuario_dockerhub/hsr-api:v1 
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres-service:5432/hsr_db
+        - name: SPRING_DATASOURCE_USERNAME
+          value: postgres
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: admin
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hsr-api-service
+spec:
+  type: LoadBalancer 
+  selector:
+    app: hsr-api
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
